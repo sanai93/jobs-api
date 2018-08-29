@@ -5,12 +5,13 @@ public class Result {
 
 	private String city;
 	private int totalJobs;
-	private String language;
+	private List<JobLanguage> languages;
 	private List<String> pythonJobs;
 	//private jobType;
 	
 	public Result() {
 		pythonJobs = new ArrayList<String>();
+		languages = new ArrayList<JobLanguage>();
 	}
 	
 	public String getCity() {
@@ -25,11 +26,11 @@ public class Result {
 	public void setTotalJobs(int totalJobs) {
 		this.totalJobs = totalJobs;
 	}
-	public String getLanguage() {
-		return language;
+	public List<JobLanguage> getLanguages() {
+		return languages;
 	}
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setLanguages(List<JobLanguage> language) {
+		this.languages = language;
 	}
 	public List<String> getPythonJobs() {
 		return pythonJobs;

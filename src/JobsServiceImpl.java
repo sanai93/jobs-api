@@ -18,8 +18,7 @@ public class JobsServiceImpl implements JobsService {
 		Gson gson = new Gson();
 		
 		//assemble url based on search parameters
-		URL url;
-		url = new URL("https://jobs.github.com/positions.json?location=" + city);
+		URL url = new URL("https://jobs.github.com/positions.json?location=" + city);
 
 		//create HTTP connection
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -59,6 +58,9 @@ public class JobsServiceImpl implements JobsService {
 			result.setCity(r.getLocation());
 			
 			if(r.getDescription().contains("Python")) {
+				JobLanguage python = new JobLanguage();
+				python.setTitle("Python");
+				result.getLanguages().add(python);
 				result.getPythonJobs().add(r.getId());
 			}
 			
@@ -72,7 +74,7 @@ public class JobsServiceImpl implements JobsService {
 	public void printSummary(List<Result> summary) {
 		summary.forEach((item) -> {
 			System.out.println(item.getCity() + ":");
-			System.out.println("language " + item.getLanguage() + " :");
+			System.out.println("language " + item.getLanguages().get(0) + " :");
 			for(String x : item.getPythonJobs()) {
 				System.out.println(x);
 			}
