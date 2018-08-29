@@ -19,7 +19,7 @@ public class JobsServiceImpl implements JobsService {
 		
 		//assemble url based on search parameters
 		URL url;
-		url = new URL("https://jobs.github.com/positions.json?description=python&location=" + city);
+		url = new URL("https://jobs.github.com/positions.json?location=" + city);
 
 		//create HTTP connection
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -37,18 +37,46 @@ public class JobsServiceImpl implements JobsService {
 		
 		//convert JSON to Response object
 		String json = stringBuilder.toString();
-		System.out.println("string builder:");
+		/*System.out.println("string builder:");
 		System.out.println(json);
-		System.out.println("GSON:");
+		System.out.println("GSON:");*/
 		
 		responses = gson.fromJson(json, new TypeToken<List<Response>>(){}.getType());
-		responses.forEach(x -> System.out.println(x.getLocation()));
-		
+		//responses.forEach(x -> System.out.println(x.getLocation()));
 		
 		//add each response to the list of responses
-		System.out.println(job.getLocation());
 		
-		return null;
+		return responses;
+	}
+
+	@Override
+	public List<Result> createResult(List<Response> response) {
+
+		List<Result> summary = new ArrayList<Result>();
+		
+		response.forEach((r) -> {
+			Result result = new Result();
+			result.setCity(r.getLocation());
+			
+			if(r.getDescription().contains("Python")) {
+				result.getPythonJobs().add(r.getId());
+			}
+			
+			summary.add(result);
+		});
+		
+		return summary;
+	}
+
+	@Override
+	public void printSummary(List<Result> summary) {
+		summary.forEach((item) -> {
+			System.out.println(item.getCity() + ":");
+			System.out.println("language " + item.getLanguage() + " :");
+			for(String x : item.getPythonJobs()) {
+				System.out.println(x);
+			}
+		});
 	}
 
 }
