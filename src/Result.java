@@ -7,7 +7,8 @@ public class Result {
 	private int totalJobs;
 	private List<JobLanguage> languages;
 	
-	public Result() {
+	public Result(String city) {
+		this.city = city;
 		languages = new ArrayList<JobLanguage>();
 		totalJobs = 0;
 	}

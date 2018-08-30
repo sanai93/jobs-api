@@ -41,18 +41,16 @@ public class JobsServiceImpl implements JobsService {
 	}
 
 	@Override
-	public List<Result> createResult(List<Response> responses, String language) {
+	public JobLanguage searchJobsInCityByLanguage(Result result, List<Response> responses, String language) {
 
-		List<Result> summary = new ArrayList<Result>();
-		Result result = new Result();
+		//List<Result> summary = new ArrayList<Result>();
 		JobLanguage jobLanguage = new JobLanguage();
 		jobLanguage.setTitle(language);
 		
 		//loop through all the responses and convert to appropriate field in the Result object
 		responses.forEach((job) -> {
-			int fullTimeCount = 0;
-			int partTimeCount = 0;
-			result.setCity(job.getLocation());
+			int fullTimeCount = jobLanguage.getFullTime();
+			int partTimeCount = jobLanguage.getFullTime();
 			//check if description contains a specific job, and add to the list based on if it's full time or part time
 			if(job.getDescription().toUpperCase().contains(language.toUpperCase())) {
 				if(job.getType().equalsIgnoreCase("full time")) {
@@ -65,14 +63,24 @@ public class JobsServiceImpl implements JobsService {
 			jobLanguage.setPartTime(partTimeCount);
 			
 		});
-		result.getLanguages().add(jobLanguage);
-		summary.add(result);
-		return summary;
+		//result.getLanguages().add(jobLanguage);
+		//summary.add(result);
+		return jobLanguage;
 	}
 
 	@Override
-	public void printSummary(ResourceCollection<List<Result>> summary) {
-		for(List<Result> r : summary.getItems()) {
+	public void printSummary(List<Result> summary) {
+		summary.forEach((item) -> {
+			System.out.println(item.getCity() + ":");
+			for(JobLanguage l : item.getLanguages()) {
+				System.out.println(" - " + l.getTitle() + " Total: " + l.getTotal());
+				System.out.println("   - Full Time: " + l.getFullTime());
+				System.out.println("   - Part Time: " +l.getPartTime());
+			}
+		});
+		}
+		
+		/*for(List<Result> r : summary.getItems()) {
 			r.forEach((item) -> {
 				System.out.println(item.getCity() + ":");
 				for(JobLanguage l : item.getLanguages()) {
@@ -83,7 +91,6 @@ public class JobsServiceImpl implements JobsService {
 					//System.out.println("   - Part Time: " + Math.floorDiv(l.getPartTime(), item.getTotalJobs()) * 100 + "%");
 				}
 			});
-		}
-	}
+		}*/
 
 }

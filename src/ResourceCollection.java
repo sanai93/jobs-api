@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResourceCollection<Result> {
+public class ResourceCollection<T> {
 
 	private List<Result> items;
 	
