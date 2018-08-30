@@ -10,13 +10,14 @@ public class Main {
 		jobsService = new JobsServiceImpl();
 		collection = new ResourceCollection<List<Result>>();
 		String[] cities = {"Boston", "San Francisco", "Los Angeles" ,"Denver", "Boulder", "Chicago", "New York"};
-		String[] jobs = {"Python", "Java"};
+		//String[] cities = {"Denver"};
+		String[] languages = {"Python", "Java"};
 		
 		//get response from Github
 		for(String city : cities) {
-			List<Response> response = jobsService.getJobsByCity(city);
-			for(String job : jobs) {
-				List<Result> results = jobsService.createResult(response, job);
+			List<Response> jobs = jobsService.getJobsByCity(city);
+			for(String language : languages) {
+				List<Result> results = jobsService.createResult(jobs, language);
 				collection.addItem(results);
 			}
 		}

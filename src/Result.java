@@ -9,6 +9,7 @@ public class Result {
 	
 	public Result() {
 		languages = new ArrayList<JobLanguage>();
+		totalJobs = 0;
 	}
 	
 	public String getCity() {
@@ -18,6 +19,9 @@ public class Result {
 		this.city = city;
 	}
 	public int getTotalJobs() {
+		languages.forEach((l) -> {
+			totalJobs = totalJobs + l.getTotal();
+		});
 		return totalJobs;
 	}
 	public void setTotalJobs(int totalJobs) {

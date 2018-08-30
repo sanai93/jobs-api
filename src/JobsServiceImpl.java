@@ -41,29 +41,31 @@ public class JobsServiceImpl implements JobsService {
 	}
 
 	@Override
-	public List<Result> createResult(List<Response> response, String language) {
+	public List<Result> createResult(List<Response> responses, String language) {
 
 		List<Result> summary = new ArrayList<Result>();
 		Result result = new Result();
+		JobLanguage jobLanguage = new JobLanguage();
+		jobLanguage.setTitle(language);
+		
 		//loop through all the responses and convert to appropriate field in the Result object
-		response.forEach((r) -> {
-			result.setCity(r.getLocation());
+		responses.forEach((job) -> {
+			int fullTimeCount = 0;
+			int partTimeCount = 0;
+			result.setCity(job.getLocation());
 			//check if description contains a specific job, and add to the list based on if it's full time or part time
-			if(r.getDescription().toUpperCase().contains(language.toUpperCase())) {
-				int fullTimeCount = 0;
-				int partTimeCount = 0;
-				JobLanguage jobLanguage = new JobLanguage();
-				jobLanguage.setTitle(language);
-				if(r.getType().equalsIgnoreCase("full time")) {
+			if(job.getDescription().toUpperCase().contains(language.toUpperCase())) {
+				if(job.getType().equalsIgnoreCase("full time")) {
 					fullTimeCount++;
 				} else {
 					partTimeCount++;
 				}
-				jobLanguage.setFullTime(fullTimeCount);
-				jobLanguage.setPartTime(partTimeCount);
-				result.getLanguages().add(jobLanguage);
 			}
+			jobLanguage.setFullTime(fullTimeCount);
+			jobLanguage.setPartTime(partTimeCount);
+			
 		});
+		result.getLanguages().add(jobLanguage);
 		summary.add(result);
 		return summary;
 	}
@@ -76,7 +78,9 @@ public class JobsServiceImpl implements JobsService {
 				for(JobLanguage l : item.getLanguages()) {
 					System.out.println(" - " + l.getTitle() + " Total: " + l.getTotal());
 					System.out.println("   - Full Time: " + l.getFullTime());
-					System.out.println("   - Part Time: " + l.getPartTime());
+					System.out.println("   - Part Time: " +l.getPartTime());
+					//System.out.println("   - Full Time: " + Math.floorDiv(l.getFullTime(), item.getTotalJobs()) * 100 + "%");
+					//System.out.println("   - Part Time: " + Math.floorDiv(l.getPartTime(), item.getTotalJobs()) * 100 + "%");
 				}
 			});
 		}
