@@ -21,11 +21,7 @@ public class Main {
 			}
 		}
 		//print the summary
-		collection.getItems().forEach((item) -> {
-			jobsService.printSummary(collection);
-			System.out.println(" ");
-		}); 
-
+		jobsService.printSummary(collection);
 	}
 
 }
