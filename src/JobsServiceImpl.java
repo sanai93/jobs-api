@@ -17,7 +17,7 @@ public class JobsServiceImpl implements JobsService {
 		Gson gson = new Gson();
 		
 		//assemble url based on search parameters
-		URL url = new URL("https://jobs.github.com/positions.json?location=" + city);
+		URL url = new URL("https://jobs.github.com/positions.json?location=" + city.replace(" ", "+"));
 
 		//create HTTP connection
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();

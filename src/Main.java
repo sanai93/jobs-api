@@ -9,7 +9,7 @@ public class Main {
 
 		jobsService = new JobsServiceImpl();
 		collection = new ResourceCollection<List<Result>>();
-		String[] cities = {"Boston", "Denver"}; 
+		String[] cities = {"Boston", "San Francisco", "Los Angeles" ,"Denver", "Boulder", "Chicago", "New York"}; 
 		String[] jobs = {"Python", "Java"};
 		
 		//get response from Github
@@ -23,5 +23,5 @@ public class Main {
 		//print the summary
 		jobsService.printSummary(collection);
 	}
-
+	
 }
