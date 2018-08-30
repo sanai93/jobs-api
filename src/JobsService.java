@@ -6,6 +6,5 @@ public interface JobsService {
 	
 	public JobLanguage searchJobsInCityByLanguage(Result result, List<Response> response, String language);
 	
-	//public void printSummary(ResourceCollection<List<Result>> summary);
 	public void printSummary(List<Result> summary);
 }

@@ -20,6 +20,7 @@ public class Result {
 		this.city = city;
 	}
 	public int getTotalJobs() {
+		totalJobs = 0;
 		languages.forEach((l) -> {
 			totalJobs = totalJobs + l.getTotal();
 		});
