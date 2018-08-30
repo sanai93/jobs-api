@@ -6,11 +6,8 @@ public class Result {
 	private String city;
 	private int totalJobs;
 	private List<JobLanguage> languages;
-	private List<String> pythonJobs;
-	//private jobType;
 	
 	public Result() {
-		pythonJobs = new ArrayList<String>();
 		languages = new ArrayList<JobLanguage>();
 	}
 	
@@ -31,12 +28,6 @@ public class Result {
 	}
 	public void setLanguages(List<JobLanguage> language) {
 		this.languages = language;
-	}
-	public List<String> getPythonJobs() {
-		return pythonJobs;
-	}
-	public void setPythonJobs(List<String> pythonJobs) {
-		this.pythonJobs = pythonJobs;
 	}
 	
 }

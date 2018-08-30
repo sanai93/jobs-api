@@ -12,9 +12,8 @@ public class JobsServiceImpl implements JobsService {
 
 	@Override
 	public List<Response> getJobsByCity(String city) throws Exception {
-		List<Response> responses = new ArrayList<Response>();
 		
-		Response job = new Response();
+		List<Response> responses = new ArrayList<Response>();
 		Gson gson = new Gson();
 		
 		//assemble url based on search parameters
@@ -34,46 +33,36 @@ public class JobsServiceImpl implements JobsService {
 		}
 		reader.close();
 		
-		//convert JSON to Response object
+		//convert JSON to Response object and add to List
 		String json = stringBuilder.toString();
-		/*System.out.println("string builder:");
-		System.out.println(json);
-		System.out.println("GSON:");*/
-		
 		responses = gson.fromJson(json, new TypeToken<List<Response>>(){}.getType());
-		//responses.forEach(x -> System.out.println(x.getLocation()));
-		
-		//add each response to the list of responses
 		
 		return responses;
 	}
 
 	@Override
-	public List<Result> createResult(List<Response> response) {
+	public List<Result> createResult(List<Response> response, String language) {
 
 		List<Result> summary = new ArrayList<Result>();
-		
+		//loop through all the responses and convert to appropriate field in the Result object
 		response.forEach((r) -> {
 			Result result = new Result();
 			result.setCity(r.getLocation());
-			
-			if(r.getDescription().contains("Python")) {
+			//check if description contains a specific job, and add to the list based on if it's full time or part time
+			if(r.getDescription().toUpperCase().contains(language.toUpperCase())) {
 				int fullTimeCount = 0;
 				int partTimeCount = 0;
-				
-				JobLanguage python = new JobLanguage();
-				python.setTitle("Python");
+				JobLanguage jobLanguage = new JobLanguage();
+				jobLanguage.setTitle(language);
 				if(r.getType().equalsIgnoreCase("full time")) {
 					fullTimeCount++;
 				} else {
 					partTimeCount++;
 				}
-				python.setFullTime(fullTimeCount);
-				python.setPartTime(partTimeCount);
-				result.getLanguages().add(python);
-				result.getPythonJobs().add(r.getId());
+				jobLanguage.setFullTime(fullTimeCount);
+				jobLanguage.setPartTime(partTimeCount);
+				result.getLanguages().add(jobLanguage);
 			}
-			
 			summary.add(result);
 		});
 		
@@ -81,15 +70,17 @@ public class JobsServiceImpl implements JobsService {
 	}
 
 	@Override
-	public void printSummary(List<Result> summary) {
-		summary.forEach((item) -> {
-			System.out.println(item.getCity() + ":");
-			for(JobLanguage l : item.getLanguages()) {
-				System.out.println("  language " + l.getTitle() + " Total: " + l.getTotal());
-				System.out.println("    Full Time: " + l.getFullTime());
-				System.out.println("    Part Time: " + l.getPartTime());
-			}
-		});
+	public void printSummary(ResourceCollection<List<Result>> summary) {
+		for(List<Result> r : summary.getItems()) {
+			r.forEach((item) -> {
+				System.out.println(item.getCity() + ":");
+				for(JobLanguage l : item.getLanguages()) {
+					System.out.println(" - " + l.getTitle() + " Total: " + l.getTotal());
+					System.out.println("   - Full Time: " + l.getFullTime());
+					System.out.println("   - Part Time: " + l.getPartTime());
+				}
+			});
+		}
 	}
 
 }
