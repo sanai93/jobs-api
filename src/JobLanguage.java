@@ -2,8 +2,9 @@
 public class JobLanguage {
 	
 	private String title;
-	private int fullTimePercentage;
-	private int partTimePercentage;
+	private int fullTime;
+	private int partTime;
+	private int total;
 	
 	public String getTitle() {
 		return title;
@@ -11,17 +12,20 @@ public class JobLanguage {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public int getFullTimePercentage() {
-		return fullTimePercentage;
+	public int getFullTime() {
+		return fullTime;
 	}
-	public void setFullTimePercentage(int fullTimePercentage) {
-		this.fullTimePercentage = fullTimePercentage;
+	public void setFullTime(int fullTime) {
+		this.fullTime = fullTime;
 	}
-	public int getPartTimePercentage() {
-		return partTimePercentage;
+	public int getPartTime() {
+		return partTime;
 	}
-	public void setPartTimePercentage(int partTimePercentage) {
-		this.partTimePercentage = partTimePercentage;
+	public void setPartTime(int partTime) {
+		this.partTime = partTime;
+	}
+	public int getTotal() {
+		return this.total = this.fullTime + this.partTime;
 	}
 	
 }

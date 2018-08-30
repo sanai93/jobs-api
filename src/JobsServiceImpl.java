@@ -58,8 +58,18 @@ public class JobsServiceImpl implements JobsService {
 			result.setCity(r.getLocation());
 			
 			if(r.getDescription().contains("Python")) {
+				int fullTimeCount = 0;
+				int partTimeCount = 0;
+				
 				JobLanguage python = new JobLanguage();
 				python.setTitle("Python");
+				if(r.getType().equalsIgnoreCase("full time")) {
+					fullTimeCount++;
+				} else {
+					partTimeCount++;
+				}
+				python.setFullTime(fullTimeCount);
+				python.setPartTime(partTimeCount);
 				result.getLanguages().add(python);
 				result.getPythonJobs().add(r.getId());
 			}
@@ -74,9 +84,10 @@ public class JobsServiceImpl implements JobsService {
 	public void printSummary(List<Result> summary) {
 		summary.forEach((item) -> {
 			System.out.println(item.getCity() + ":");
-			System.out.println("language " + item.getLanguages().get(0) + " :");
-			for(String x : item.getPythonJobs()) {
-				System.out.println(x);
+			for(JobLanguage l : item.getLanguages()) {
+				System.out.println("  language " + l.getTitle() + " Total: " + l.getTotal());
+				System.out.println("    Full Time: " + l.getFullTime());
+				System.out.println("    Part Time: " + l.getPartTime());
 			}
 		});
 	}
