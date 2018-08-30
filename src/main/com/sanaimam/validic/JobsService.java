@@ -1,3 +1,4 @@
+package com.sanaimam.validic;
 import java.util.List;
 
 public interface JobsService {
