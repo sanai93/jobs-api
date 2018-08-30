@@ -44,9 +44,9 @@ public class JobsServiceImpl implements JobsService {
 	public List<Result> createResult(List<Response> response, String language) {
 
 		List<Result> summary = new ArrayList<Result>();
+		Result result = new Result();
 		//loop through all the responses and convert to appropriate field in the Result object
 		response.forEach((r) -> {
-			Result result = new Result();
 			result.setCity(r.getLocation());
 			//check if description contains a specific job, and add to the list based on if it's full time or part time
 			if(r.getDescription().toUpperCase().contains(language.toUpperCase())) {
@@ -63,9 +63,8 @@ public class JobsServiceImpl implements JobsService {
 				jobLanguage.setPartTime(partTimeCount);
 				result.getLanguages().add(jobLanguage);
 			}
-			summary.add(result);
 		});
-		
+		summary.add(result);
 		return summary;
 	}
 
