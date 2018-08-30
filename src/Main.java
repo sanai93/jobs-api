@@ -11,7 +11,7 @@ public class Main {
 		jobsService = new JobsServiceImpl();
 		results = new ArrayList<>();
 		String[] cities = {"Boston", "San Francisco", "Los Angeles" ,"Denver", "Boulder", "Chicago", "New York"};
-		String[] languages = {"Python", "Java"};
+		String[] languages = {"Python", "Java", "JavaScript", "C#"};
 		
 		//get response from Github
 		for(String city : cities) {

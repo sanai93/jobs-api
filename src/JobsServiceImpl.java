@@ -49,7 +49,7 @@ public class JobsServiceImpl implements JobsService {
 
 		// loop through all the responses and convert to appropriate field in
 		// the Result object
-		responses.forEach((job) -> {
+		for(Response job : responses) {
 			int fullTimeCount = jobLanguage.getFullTime();
 			int partTimeCount = jobLanguage.getPartTime();
 			
@@ -64,15 +64,19 @@ public class JobsServiceImpl implements JobsService {
 			}
 			jobLanguage.setFullTime(fullTimeCount);
 			jobLanguage.setPartTime(partTimeCount);
-		});
+		}
 		
 		return jobLanguage;
 	}
 
 	@Override
 	public void printSummary(List<Result> summary) {
-		summary.forEach((item) -> {
+		int allJobPostings = 0;
+		
+		for(Result item : summary) {
 			int totalJobs = item.getTotalJobs();
+			allJobPostings += totalJobs;
+			
 			System.out.println(item.getCity() + ": " + totalJobs + " total jobs");
 
 			for (JobLanguage l : item.getLanguages()) {
@@ -83,7 +87,8 @@ public class JobsServiceImpl implements JobsService {
 				System.out.println("   - Full Time: " + fullTimePercent + "%");
 				System.out.println("   - Part Time: " + partTimePercent + "%");
 			}
-		});
+		}
+		System.out.println("Sourced: " + allJobPostings + " job postings");
 	}
 
 }
